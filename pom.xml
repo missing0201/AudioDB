@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>EarphonesDB</module>
+        <module>Earphones-service</module>
     </modules>
 
     <properties>

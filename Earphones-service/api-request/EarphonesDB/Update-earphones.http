@@ -1,0 +1,14 @@
+PUT http://localhost:4000/iem/6
+Content-Type: application/json
+
+{
+  "brand": "Sennheiser",
+  "model": "testing",
+  "msrp": 1299.95,
+  "drivers": [
+    {
+      "driverTypeId": 1,
+      "quantity": 2
+    }
+  ]
+}
