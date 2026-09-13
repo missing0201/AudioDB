@@ -2,6 +2,8 @@ package com.pm.earphonesdb.controller;
 
 import com.pm.earphonesdb.dto.EarphoneRequestDTO;
 import com.pm.earphonesdb.dto.EarphoneResponseDTO;
+import com.pm.earphonesdb.dto.SignatureResponseDTO;
+import com.pm.earphonesdb.grpc.SoundSignatureGrpcClient;
 import com.pm.earphonesdb.service.EarphoneService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -11,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import sound_signature.GetSignatureResponse;
 
 import java.util.List;
 
@@ -19,9 +22,11 @@ import java.util.List;
 @Tag(name="Earphone",description = "API for managing earphones")
 public class EarphonesController {
     private final EarphoneService earphoneService;
+    private final SoundSignatureGrpcClient soundSignatureGrpcClient;
 
-    public EarphonesController(EarphoneService earphoneService) {
+    public EarphonesController(EarphoneService earphoneService,SoundSignatureGrpcClient soundSignatureGrpcClient) {
         this.earphoneService = earphoneService;
+        this.soundSignatureGrpcClient=soundSignatureGrpcClient;
     }
 
     @GetMapping
@@ -29,6 +34,28 @@ public class EarphonesController {
     public ResponseEntity<List<EarphoneResponseDTO>> getEarphones() {
         List<EarphoneResponseDTO> earphones = earphoneService.getEarphones();
         return ResponseEntity.ok().body(earphones);
+    }
+
+    @GetMapping("/{id}/signature")
+    @Operation(summary = "Get an earphone's signature")
+    public ResponseEntity<SignatureResponseDTO> getEarphoneSignature(
+            @PathVariable String id) {
+
+        GetSignatureResponse response =
+                soundSignatureGrpcClient.getSignature(id);
+
+        var signature = response.getSignature();
+
+        SignatureResponseDTO dto = new SignatureResponseDTO(
+                signature.getId(),
+                signature.getPrimarySignature().name(),
+                signature.getBassScore(),
+                signature.getMidsScore(),
+                signature.getTrebleScore(),
+                signature.getDescription()
+        );
+
+        return ResponseEntity.ok().body(dto);
     }
 
     @PostMapping

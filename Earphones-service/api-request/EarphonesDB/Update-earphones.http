@@ -1,3 +1,4 @@
+##Update existing Earphones
 PUT http://localhost:4000/iem/6
 Content-Type: application/json
 

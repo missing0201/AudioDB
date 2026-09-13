@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EarphoneMapper {
+    //Take in an Earphone and returns the corresponding earphone data into a DTO
     public static EarphoneResponseDTO toDTO(Earphone earphone){
         EarphoneResponseDTO earphoneDTO = new EarphoneResponseDTO();
 
@@ -31,6 +32,7 @@ public class EarphoneMapper {
         return earphoneDTO;
     }
 
+    //Take in a DTO and returns the corresponding earphone
     public static Earphone toModel(EarphoneRequestDTO earphoneRequestDTO){
         Earphone earphone = new Earphone();
         earphone.setBrand(earphoneRequestDTO.getBrand());

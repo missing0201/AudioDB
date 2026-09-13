@@ -1,0 +1,39 @@
+syntax="proto3";
+
+option java_multiple_files=true;
+option java_package="sound_signature";
+
+service SoundSignatureService{
+  rpc GetSignature(GetSignatureRequest)
+      returns (GetSignatureResponse);
+}
+
+message GetSignatureRequest {
+  string earphone_id = 1;
+}
+
+message GetSignatureResponse {
+  Signature signature = 1;
+}
+
+message Signature {
+  string id = 1;
+  SoundSignature primary_signature = 2;
+
+  float bass_score = 4;
+  float mids_score = 5;
+  float treble_score = 6;
+
+  string description = 7;
+}
+
+enum SoundSignature {
+  SOUND_SIGNATURE_UNSPECIFIED = 0;
+  NEUTRAL = 1;
+  V_SHAPED = 2;
+  WARM = 3;
+  BRIGHT = 4;
+  BASS_HEAVY = 5;
+  ANALYTICAL = 6;
+  DARK = 7;
+}

@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.pm</groupId>
-    <artifactId>earphonesdb-parent</artifactId>
+    <artifactId>AudioDB</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 

@@ -12,7 +12,8 @@ INSERT INTO earphone (brand, model, msrp) VALUES
                                               ('7Hz', 'Timeless', 219.00),
                                               ('Sennheiser', 'IE 600', 699.95),
                                               ('Sony', 'IER-Z1R', 1699.99),
-                                              ('Kiwi Ears', 'Quartet', 109.00);
+                                              ('Kiwi Ears', 'Quartet', 109.00)
+ON CONFLICT (brand, model) DO NOTHING;
 
 -- EARPHONE DRIVERS
 INSERT INTO earphone_driver (earphone_id, driver_type_id, quantity) VALUES

@@ -1,0 +1,6 @@
+GRPC localhost:9001/SoundSignatureService/GetSignature
+Content-Type: application/json
+
+{
+  "earphone_id":"1"
+}
