@@ -3,6 +3,7 @@ package com.pm.earphonesdb.service;
 import com.pm.earphonesdb.dto.EarphoneDriverRequestDTO;
 import com.pm.earphonesdb.dto.EarphoneRequestDTO;
 import com.pm.earphonesdb.dto.EarphoneResponseDTO;
+import com.pm.earphonesdb.dto.SignatureResponseDTO;
 import com.pm.earphonesdb.exception.DriverNotFoundException;
 import com.pm.earphonesdb.exception.EarphoneNotFoundException;
 import com.pm.earphonesdb.exception.ModelAlreadyExistsException;
@@ -14,6 +15,7 @@ import com.pm.earphonesdb.model.EarphoneDriver;
 import com.pm.earphonesdb.repository.DriverTypeRepository;
 import com.pm.earphonesdb.repository.EarphoneRepository;
 import org.springframework.stereotype.Service;
+import sound_signature.GetSignatureResponse;
 import sound_signature.SoundSignatureServiceGrpc;
 
 import java.util.ArrayList;
@@ -29,6 +31,24 @@ public class EarphoneService {
         this.earphoneRepository = earphoneRepository;
         this.driverTypeRepository = driverTypeRepository;
         this.soundSignatureGrpcClient = soundSignatureGrpcClient;
+    }
+
+    public SignatureResponseDTO getSignature(String id){
+        GetSignatureResponse response =
+                soundSignatureGrpcClient.getSignature(id);
+
+        var signature = response.getSignature();
+
+        SignatureResponseDTO dto = new SignatureResponseDTO(
+                signature.getId(),
+                signature.getPrimarySignature().name(),
+                signature.getBassScore(),
+                signature.getMidsScore(),
+                signature.getTrebleScore(),
+                signature.getDescription()
+        );
+
+        return dto;
     }
 
     //Service layer of get all earphones

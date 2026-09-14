@@ -41,21 +41,7 @@ public class EarphonesController {
     public ResponseEntity<SignatureResponseDTO> getEarphoneSignature(
             @PathVariable String id) {
 
-        GetSignatureResponse response =
-                soundSignatureGrpcClient.getSignature(id);
-
-        var signature = response.getSignature();
-
-        SignatureResponseDTO dto = new SignatureResponseDTO(
-                signature.getId(),
-                signature.getPrimarySignature().name(),
-                signature.getBassScore(),
-                signature.getMidsScore(),
-                signature.getTrebleScore(),
-                signature.getDescription()
-        );
-
-        return ResponseEntity.ok().body(dto);
+        return ResponseEntity.ok(earphoneService.getSignature(id));
     }
 
     @PostMapping
