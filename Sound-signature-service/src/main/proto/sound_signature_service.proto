@@ -6,6 +6,10 @@ option java_package="sound_signature";
 service SoundSignatureService{
   rpc GetSignature(GetSignatureRequest)
       returns (GetSignatureResponse);
+  rpc SetSignature(SetSignatureRequest)
+      returns (SetSignatureResponse);
+  rpc UpdateSignature(UpdateSignatureRequest)
+      returns (UpdateSignatureResponse);
 }
 
 message GetSignatureRequest {
@@ -13,6 +17,22 @@ message GetSignatureRequest {
 }
 
 message GetSignatureResponse {
+  Signature signature = 1;
+}
+
+message SetSignatureRequest {
+  Signature signature = 1;
+}
+
+message SetSignatureResponse {
+  Signature signature = 1;
+}
+
+message UpdateSignatureRequest {
+  Signature signature = 1;
+}
+
+message UpdateSignatureResponse {
   Signature signature = 1;
 }
 

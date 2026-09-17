@@ -3,9 +3,7 @@ package com.pm.soundsignatureservice.service;
 import com.pm.soundsignatureservice.model.SignatureEntity;
 import com.pm.soundsignatureservice.repo.SignatureRepo;
 import org.springframework.stereotype.Service;
-import sound_signature.GetSignatureResponse;
-import sound_signature.Signature;
-import sound_signature.SoundSignature;
+import sound_signature.*;
 
 import java.util.NoSuchElementException;
 
@@ -37,6 +35,58 @@ public class SignatureService {
                 .build();
 
         return response;
+    }
+
+    public SetSignatureResponse setSignature(Signature signature){
+        System.out.println("Signature received: " + signature);
+        System.out.println("ID received: [" + signature.getId() + "]");
+        Long id=Long.parseLong(signature.getId());
+
+        try{
+            if(!signatureRepo.existsById(id)){
+                SignatureEntity inputSignature= new SignatureEntity();
+
+                        inputSignature.setEarphoneId(id);
+                        inputSignature.setPrimarySignature(signature.getPrimarySignature().toString());
+                        inputSignature.setBassScore(signature.getBassScore());
+                        inputSignature.setMidsScore(signature.getMidsScore());
+                        inputSignature.setTrebleScore(signature.getTrebleScore());
+                        inputSignature.setDescription(signature.getDescription());
+
+                signatureRepo.save(inputSignature);
+            }
+        } catch (NumberFormatException e) {
+            throw new RuntimeException(e);
+        }
+
+        return  SetSignatureResponse.newBuilder()
+                .setSignature(signature)
+                .build();
+    }
+
+    public UpdateSignatureResponse updateSignature(Signature signature){
+        Long id=Long.parseLong(signature.getId());
+
+        try{
+            if(signatureRepo.existsById(id)){
+                SignatureEntity inputSignature= new SignatureEntity();
+
+                inputSignature.setEarphoneId(id);
+                inputSignature.setPrimarySignature(signature.getPrimarySignature().toString());
+                inputSignature.setBassScore(signature.getBassScore());
+                inputSignature.setMidsScore(signature.getMidsScore());
+                inputSignature.setTrebleScore(signature.getTrebleScore());
+                inputSignature.setDescription(signature.getDescription());
+
+                signatureRepo.save(inputSignature);
+            }
+        } catch (NumberFormatException e) {
+            throw new RuntimeException(e);
+        }
+
+        return  UpdateSignatureResponse.newBuilder()
+                .setSignature(signature)
+                .build();
     }
 
     private SoundSignature mapToProtoEnum(String value) {

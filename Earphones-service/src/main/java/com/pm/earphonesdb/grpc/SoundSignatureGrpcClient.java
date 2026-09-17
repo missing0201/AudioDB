@@ -6,9 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import sound_signature.GetSignatureRequest;
-import sound_signature.GetSignatureResponse;
-import sound_signature.SoundSignatureServiceGrpc;
+import sound_signature.*;
 
 @Service
 public class SoundSignatureGrpcClient {
@@ -35,6 +33,21 @@ public class SoundSignatureGrpcClient {
 
         GetSignatureResponse response= blockingStub.getSignature(request);
         log.info("getSignature response={}", response);
+        return response;
+    }
+
+    public SetSignatureResponse setSignature(Signature signature){
+        SetSignatureRequest request= SetSignatureRequest.newBuilder().setSignature(signature).build();
+
+        SetSignatureResponse response= blockingStub.setSignature(request);
+        log.info("setSignature response={}", response);
+        return response;
+    }
+
+    public UpdateSignatureResponse updateSignature(Signature signature){
+        UpdateSignatureRequest request= UpdateSignatureRequest.newBuilder().setSignature(signature).build();
+
+        UpdateSignatureResponse response= blockingStub.updateSignature(request);
         return response;
     }
 }
