@@ -1,6 +1,7 @@
 package com.pm.earphonesdb.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 
@@ -9,25 +10,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EarphoneRequestDTO {
-    @NotBlank
-    @Size(max=30,message = "Name cannot exceed 30 characters")
-    private String brand;
+    @NotNull
+    private Long brandId;
 
     @NotBlank
     @Size(max=30,message = "Name cannot exceed 30 characters")
     private String model;
 
-    @PositiveOrZero
+    @NotNull
     private BigDecimal msrp;
 
     private List<EarphoneDriverRequestDTO> drivers = new ArrayList<>();
 
-    public String getBrand() {
-        return brand;
+    public Long getBrandId() {
+        return brandId;
     }
 
-    public void setBrand(String brand) {
-        this.brand = brand;
+    public void setBrandId(Long brandId) {
+        this.brandId = brandId;
     }
 
     public String getModel() {

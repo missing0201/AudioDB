@@ -2,6 +2,7 @@ package com.pm.earphonesdb.exception;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -37,7 +38,7 @@ public class GlobalExceptionHandler {
         log.warn("Earphone not found! {}", ex.getMessage());
         Map<String, String> errors = new HashMap<>();
         errors.put("message", "Earphone not found!");
-        return ResponseEntity.badRequest().body(errors);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errors);
     }
 
     @ExceptionHandler(DriverNotFoundException.class)
@@ -45,6 +46,14 @@ public class GlobalExceptionHandler {
         log.warn("Driver not found! {}", ex.getMessage());
         Map<String, String> errors = new HashMap<>();
         errors.put("message", "Driver not found!");
-        return ResponseEntity.badRequest().body(errors);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errors);
+    }
+
+    @ExceptionHandler(BrandNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleBrandNotFoundException(BrandNotFoundException ex) {
+        log.warn("Brand not found! {}", ex.getMessage());
+        Map<String, String> errors = new HashMap<>();
+        errors.put("message", "Brand not found!");
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errors);
     }
 }

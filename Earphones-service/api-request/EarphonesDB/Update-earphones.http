@@ -3,7 +3,7 @@ PUT http://localhost:4000/iem/6
 Content-Type: application/json
 
 {
-  "brand": "Sennheiser",
+  "brandId": "3",
   "model": "testing",
   "msrp": 1299.95,
   "drivers": [

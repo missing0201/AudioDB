@@ -6,6 +6,7 @@ import java.util.List;
 
 public class EarphoneResponseDTO {
     private long id;
+    private Long brandId;
     private String brand;
     private String model;
     private BigDecimal msrp;
@@ -18,6 +19,14 @@ public class EarphoneResponseDTO {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public Long getBrandId() {
+        return brandId;
+    }
+
+    public void setBrandId(Long brandId) {
+        this.brandId = brandId;
     }
 
     public String getBrand() {

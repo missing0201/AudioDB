@@ -13,7 +13,7 @@ import java.util.List;
 @Table(
         name = "earphone",
         uniqueConstraints = {
-                @UniqueConstraint(columnNames = {"brand", "model"})
+                @UniqueConstraint(columnNames = {"brand_id", "model"})
         }
 )
 public class Earphone {
@@ -22,7 +22,9 @@ public class Earphone {
     private long id;
 
     @NotNull
-    private String brand;
+    @ManyToOne
+    @JoinColumn(name="brand_id")
+    private Brand brand;
 
     @NotNull
     private String model;
@@ -39,11 +41,11 @@ public class Earphone {
         return id;
     }
 
-    public String getBrand() {
+    public Brand getBrand() {
         return brand;
     }
 
-    public void setBrand(String brand) {
+    public void setBrand(Brand brand) {
         this.brand = brand;
     }
 

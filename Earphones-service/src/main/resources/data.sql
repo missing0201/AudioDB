@@ -1,3 +1,8 @@
+INSERT INTO brand (name, origin) VALUES
+                                     ('Moondrop','China'), ('7Hz','China'), ('Sennheiser','Germany'),
+                                     ('Sony','Japan'), ('Kiwi Ears','China')
+    ON CONFLICT (name) DO NOTHING;
+
 -- DRIVER TYPES
 INSERT INTO driver_type (name) VALUES
                                    ('Dynamic Driver'),
@@ -7,13 +12,13 @@ INSERT INTO driver_type (name) VALUES
                                    ('Bone Conduction');
 
 -- EARPHONES
-INSERT INTO earphone (brand, model, msrp) VALUES
-                                              ('Moondrop', 'Blessing 3', 319.99),
-                                              ('7Hz', 'Timeless', 219.00),
-                                              ('Sennheiser', 'IE 600', 699.95),
-                                              ('Sony', 'IER-Z1R', 1699.99),
-                                              ('Kiwi Ears', 'Quartet', 109.00)
-ON CONFLICT (brand, model) DO NOTHING;
+INSERT INTO earphone (brand_id, model, msrp) VALUES
+                                              ((SELECT id FROM brand WHERE name='Moondrop'), 'Blessing 3', 319.99),
+                                              ((SELECT id FROM brand WHERE name='7Hz'), 'Timeless', 219.00),
+                                              ((SELECT id FROM brand WHERE name='Sennheiser'), 'IE 600', 699.95),
+                                              ((SELECT id FROM brand WHERE name='Sony'), 'IER-Z1R', 1699.99),
+                                              ((SELECT id FROM brand WHERE name='Kiwi Ears'), 'Quartet', 109.00)
+ON CONFLICT (brand_id, model) DO NOTHING;
 
 -- EARPHONE DRIVERS
 INSERT INTO earphone_driver (earphone_id, driver_type_id, quantity) VALUES

@@ -2,6 +2,7 @@ package com.pm.earphonesdb.controller;
 
 import com.pm.earphonesdb.dto.EarphoneRequestDTO;
 import com.pm.earphonesdb.dto.EarphoneResponseDTO;
+import com.pm.earphonesdb.dto.SignatureRequestDTO;
 import com.pm.earphonesdb.dto.SignatureResponseDTO;
 import com.pm.earphonesdb.grpc.SoundSignatureGrpcClient;
 import com.pm.earphonesdb.service.EarphoneService;
@@ -58,6 +59,14 @@ public class EarphonesController {
         EarphoneResponseDTO earphoneResponseDTO = earphoneService.updateEarphone(id, earphoneRequestDTO);
 
         return ResponseEntity.ok().body(earphoneResponseDTO);
+    }
+
+    @PutMapping("/{id}/signature")
+    @Operation(summary = "Update an earphone's signature")
+    public ResponseEntity<SignatureResponseDTO> updateEarphoneSignature(@PathVariable String id,
+            @Valid @RequestBody SignatureRequestDTO signatureRequestDTO) {
+
+        return ResponseEntity.ok(earphoneService.updateEarphoneSignature(id,signatureRequestDTO));
     }
 
     @DeleteMapping("/{id}")

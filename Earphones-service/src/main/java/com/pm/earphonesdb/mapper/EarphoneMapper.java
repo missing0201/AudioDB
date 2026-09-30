@@ -3,6 +3,7 @@ package com.pm.earphonesdb.mapper;
 import com.pm.earphonesdb.dto.EarphoneDriverResponseDTO;
 import com.pm.earphonesdb.dto.EarphoneRequestDTO;
 import com.pm.earphonesdb.dto.EarphoneResponseDTO;
+import com.pm.earphonesdb.model.Brand;
 import com.pm.earphonesdb.model.Earphone;
 import com.pm.earphonesdb.model.EarphoneDriver;
 
@@ -15,7 +16,8 @@ public class EarphoneMapper {
         EarphoneResponseDTO earphoneDTO = new EarphoneResponseDTO();
 
         earphoneDTO.setId(earphone.getId());
-        earphoneDTO.setBrand(earphone.getBrand());
+        earphoneDTO.setBrandId(earphone.getBrand().getId());
+        earphoneDTO.setBrand(earphone.getBrand().getName());
         earphoneDTO.setModel(earphone.getModel());
         earphoneDTO.setMsrp(earphone.getMsrp());
 
@@ -35,7 +37,6 @@ public class EarphoneMapper {
     //Take in a DTO and returns the corresponding earphone
     public static Earphone toModel(EarphoneRequestDTO earphoneRequestDTO){
         Earphone earphone = new Earphone();
-        earphone.setBrand(earphoneRequestDTO.getBrand());
         earphone.setModel(earphoneRequestDTO.getModel());
         earphone.setMsrp(earphoneRequestDTO.getMsrp());
         return earphone;
