@@ -10,7 +10,9 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>Earphones-service</module>
+        <module>Personal-audio-service</module>
+        <module>Player-service</module>
+        <module>Sound-signature-service</module>
     </modules>
 
     <properties>

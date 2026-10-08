@@ -7,14 +7,20 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="Player-service" />
-        <module name="EarphonesDB" />
         <module name="Sound-signature-service" />
+        <module name="Personal-Audio-service" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="EarphonesDB" target="21" />
+      <module name="Personal-audio-service" target="21" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="EarphonesDB" options="-parameters" />
+      <module name="Personal-Audio-service" options="-parameters" />
+      <module name="Personal-audio-service" options="-parameters" />
       <module name="Player-service" options="-parameters" />
       <module name="Sound-signature-service" options="-parameters" />
     </option>

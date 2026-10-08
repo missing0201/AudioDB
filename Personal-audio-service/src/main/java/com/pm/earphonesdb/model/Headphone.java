@@ -1,0 +1,78 @@
+package com.pm.earphonesdb.model;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Table(
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"brand_id", "model"})
+        }
+)
+public class Headphone {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name= "brand_id")
+    private Brand brand;
+
+    @NotNull
+    private String model;
+
+    @NotNull
+    @PositiveOrZero
+    private BigDecimal msrp;
+
+    @OneToMany(mappedBy = "headphone", cascade = CascadeType.ALL,orphanRemoval = true)
+    @JsonManagedReference
+    private List<Driver> drivers = new ArrayList<>();
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public Brand getBrand() {
+        return brand;
+    }
+
+    public void setBrand(Brand brand) {
+        this.brand = brand;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public BigDecimal getMsrp() {
+        return msrp;
+    }
+
+    public void setMsrp(BigDecimal msrp) {
+        this.msrp = msrp;
+    }
+
+    public List<Driver> getDrivers() {
+        return drivers;
+    }
+
+    public void setDrivers(List<Driver> drivers) {
+        this.drivers = drivers;
+    }
+}
