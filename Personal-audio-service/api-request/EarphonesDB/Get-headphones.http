@@ -1,0 +1,4 @@
+### GET request for all headphones
+GET http://localhost:4000/hp
+
+###

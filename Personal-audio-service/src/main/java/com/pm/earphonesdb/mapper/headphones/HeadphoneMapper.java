@@ -1,6 +1,7 @@
 package com.pm.earphonesdb.mapper.headphones;
 
 import com.pm.earphonesdb.dto.headphones.HeadphoneDriverResponseDTO;
+import com.pm.earphonesdb.dto.headphones.HeadphoneRequestDTO;
 import com.pm.earphonesdb.dto.headphones.HeadphoneResponseDTO;
 import com.pm.earphonesdb.model.Driver;
 import com.pm.earphonesdb.model.Headphone;
@@ -28,5 +29,12 @@ public class HeadphoneMapper {
 
         headphoneDTO.setDrivers(headphoneDrivers);
         return headphoneDTO;
+    }
+
+    public static Headphone toModel(HeadphoneRequestDTO headphoneRequestDTO){
+        Headphone headphone = new Headphone();
+        headphone.setModel(headphoneRequestDTO.getModel());
+        headphone.setMsrp(headphoneRequestDTO.getMsrp());
+        return headphone;
     }
 }

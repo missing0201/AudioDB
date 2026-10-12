@@ -20,11 +20,9 @@ import java.util.List;
 @Tag(name="Earphone",description = "API for managing earphones")
 public class EarphoneController {
     private final EarphoneService earphoneService;
-    private final SoundSignatureGrpcClient soundSignatureGrpcClient;
 
-    public EarphoneController(EarphoneService earphoneService, SoundSignatureGrpcClient soundSignatureGrpcClient) {
+    public EarphoneController(EarphoneService earphoneService) {
         this.earphoneService = earphoneService;
-        this.soundSignatureGrpcClient=soundSignatureGrpcClient;
     }
 
     @GetMapping
@@ -32,6 +30,13 @@ public class EarphoneController {
     public ResponseEntity<List<EarphoneResponseDTO>> getEarphones() {
         List<EarphoneResponseDTO> earphones = earphoneService.getEarphones();
         return ResponseEntity.ok().body(earphones);
+    }
+
+    @GetMapping("/{id}")
+    @Operation(summary = "Get earphone by id")
+    public ResponseEntity<EarphoneResponseDTO> getEarphone(@PathVariable Long id) {
+        EarphoneResponseDTO earphoneResponseDTO = earphoneService.getEarphone(id);
+        return ResponseEntity.ok().body(earphoneResponseDTO);
     }
 
     @GetMapping("/{id}/signature")

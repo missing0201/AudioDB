@@ -56,4 +56,13 @@ public class GlobalExceptionHandler {
         errors.put("message", "Brand not found!");
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errors);
     }
+
+    @ExceptionHandler(HeadphoneNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleHeadphoneNotFoundException(HeadphoneNotFoundException ex) {
+
+        log.warn("Headphone not found! {}", ex.getMessage());
+        Map<String, String> errors = new HashMap<>();
+        errors.put("message", "Headphone not found!");
+        return ResponseEntity.badRequest().body(errors);
+    }
 }
