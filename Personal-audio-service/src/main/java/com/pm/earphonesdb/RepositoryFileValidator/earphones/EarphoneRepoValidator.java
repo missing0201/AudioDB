@@ -14,7 +14,7 @@ public class EarphoneRepoValidator {
         this.earphoneRepository = earphoneRepository;
     }
 
-    public void brandAndModelExist(Brand brand, String model){
+    public void brandAndModelNotExist(Brand brand, String model){
 
         if (earphoneRepository.existsByBrandAndModelIgnoreCase(brand, model)) {
             throw new ModelAlreadyExistsException("This Model: " + brand.getName() + " "

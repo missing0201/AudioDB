@@ -1,8 +1,9 @@
 package com.pm.playerservice.mapper;
 
-import com.pm.playerservice.dto.ChipResponseDTO;
-import com.pm.playerservice.dto.dac.DacResponseDTO;
-import com.pm.playerservice.dto.dac.DacSpecResponseDTO;
+import com.pm.playerservice.dto.request.DacRequestDTO;
+import com.pm.playerservice.dto.response.ChipResponseDTO;
+import com.pm.playerservice.dto.response.DacResponseDTO;
+import com.pm.playerservice.dto.response.DacSpecResponseDTO;
 import com.pm.playerservice.model.Player;
 import com.pm.playerservice.model.dac.DacSpec;
 
@@ -32,4 +33,13 @@ public class DacMapper {
 
         return dacResponseDTO;
     }
+
+//    public static Player toEntity(DacRequestDTO dacRequestDTO) {
+//        Player player = new Player();
+//        player.setId(dacRequestDTO.getId());
+//        player.setModel(dacRequestDTO.getModel());
+//        player.setPlayerType(dacRequestDTO.getPlayerType());
+//        player.setDacSpec(dacRequestDTO.getDacSpec());
+//        return player;
+//    }
 }

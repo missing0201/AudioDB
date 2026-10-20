@@ -1,4 +1,4 @@
-package com.pm.playerservice.dto.amp;
+package com.pm.playerservice.dto.response;
 
 import com.pm.playerservice.model.amp.AmpClass;
 

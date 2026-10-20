@@ -1,4 +1,4 @@
-package com.pm.playerservice.dto.amp;
+package com.pm.playerservice.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -7,7 +7,8 @@ import com.pm.playerservice.model.PlayerType;
 @JsonPropertyOrder({
         "id","brand","model","playerType","ampSpec"
 })
-public class AmpResponseDTO {
+
+public final class AmpResponseDTO implements PlayerResponse {
     private Long id;
     private String brand;
     private String model;

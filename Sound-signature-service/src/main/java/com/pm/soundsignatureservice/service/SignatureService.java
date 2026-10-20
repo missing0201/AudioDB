@@ -1,7 +1,9 @@
 package com.pm.soundsignatureservice.service;
 
+import com.pm.soundsignatureservice.mapper.SignatureMapper;
 import com.pm.soundsignatureservice.model.SignatureEntity;
 import com.pm.soundsignatureservice.repo.SignatureRepo;
+import io.grpc.Status;
 import org.springframework.stereotype.Service;
 import sound_signature.*;
 
@@ -16,84 +18,27 @@ public class SignatureService {
     }
 
     public GetSignatureResponse getSignature(String earphoneId) {
-        Long id = Long.parseLong(earphoneId);
-
-        SignatureEntity entity = signatureRepo.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Signature not found for earphoneId: " + earphoneId));
-
-        Signature signature = Signature.newBuilder()
-                .setId(String.valueOf(entity.getEarphoneId()))
-                .setPrimarySignature(mapToProtoEnum(entity.getPrimarySignature()))
-                .setBassScore(entity.getBassScore())
-                .setMidsScore(entity.getMidsScore())
-                .setTrebleScore(entity.getTrebleScore())
-                .setDescription(entity.getDescription() == null ? "" : entity.getDescription())
-                .build();
-
-        GetSignatureResponse response = GetSignatureResponse.newBuilder()
-                .setSignature(signature)
-                .build();
-
-        return response;
+        SignatureEntity e = signatureRepo.findById(parseId(earphoneId)).orElseThrow(() ->
+                Status.NOT_FOUND.withDescription("No signature for " + earphoneId).asRuntimeException());
+        return GetSignatureResponse.newBuilder().setSignature(SignatureMapper.toProto(e)).build();
     }
 
-    public SetSignatureResponse setSignature(Signature signature){
-        System.out.println("Signature received: " + signature);
-        System.out.println("ID received: [" + signature.getId() + "]");
-        Long id=Long.parseLong(signature.getId());
-
-        try{
-            if(!signatureRepo.existsById(id)){
-                SignatureEntity inputSignature= new SignatureEntity();
-
-                        inputSignature.setEarphoneId(id);
-                        inputSignature.setPrimarySignature(signature.getPrimarySignature().toString());
-                        inputSignature.setBassScore(signature.getBassScore());
-                        inputSignature.setMidsScore(signature.getMidsScore());
-                        inputSignature.setTrebleScore(signature.getTrebleScore());
-                        inputSignature.setDescription(signature.getDescription());
-
-                signatureRepo.save(inputSignature);
-            }
-        } catch (NumberFormatException e) {
-            throw new RuntimeException(e);
-        }
-
-        return  SetSignatureResponse.newBuilder()
-                .setSignature(signature)
-                .build();
+    public SetSignatureResponse setSignature(Signature s) {
+        long id = parseId(s.getId());
+        if (signatureRepo.existsById(id))
+            throw Status.ALREADY_EXISTS.withDescription("Signature exists for " + id).asRuntimeException();
+        return SetSignatureResponse.newBuilder().setSignature(SignatureMapper.toProto(signatureRepo.save(SignatureMapper.toEntity(id, s)))).build();
     }
 
-    public UpdateSignatureResponse updateSignature(Signature signature){
-        Long id=Long.parseLong(signature.getId());
-
-        try{
-            if(signatureRepo.existsById(id)){
-                SignatureEntity inputSignature= new SignatureEntity();
-
-                inputSignature.setEarphoneId(id);
-                inputSignature.setPrimarySignature(signature.getPrimarySignature().toString());
-                inputSignature.setBassScore(signature.getBassScore());
-                inputSignature.setMidsScore(signature.getMidsScore());
-                inputSignature.setTrebleScore(signature.getTrebleScore());
-                inputSignature.setDescription(signature.getDescription());
-
-                signatureRepo.save(inputSignature);
-            }
-        } catch (NumberFormatException e) {
-            throw new RuntimeException(e);
-        }
-
-        return  UpdateSignatureResponse.newBuilder()
-                .setSignature(signature)
-                .build();
+    public UpdateSignatureResponse updateSignature(Signature s) {
+        long id = parseId(s.getId());
+        return UpdateSignatureResponse.newBuilder().setSignature(SignatureMapper.toProto(signatureRepo.save(SignatureMapper.toEntity(id, s)))).build();
     }
 
-    private SoundSignature mapToProtoEnum(String value) {
-        try {
-            return SoundSignature.valueOf(value);
-        } catch (IllegalArgumentException | NullPointerException e) {
-            return SoundSignature.SOUND_SIGNATURE_UNSPECIFIED;
+    private long parseId(String raw) {
+        try { return Long.parseLong(raw); }
+        catch (NumberFormatException e) {
+            throw Status.INVALID_ARGUMENT.withDescription("Invalid id: " + raw).asRuntimeException();
         }
     }
 }

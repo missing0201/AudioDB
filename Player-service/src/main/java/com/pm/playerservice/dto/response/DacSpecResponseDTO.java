@@ -1,6 +1,4 @@
-package com.pm.playerservice.dto.dac;
-
-import com.pm.playerservice.dto.ChipResponseDTO;
+package com.pm.playerservice.dto.response;
 
 import java.util.List;
 

@@ -42,12 +42,24 @@ public class Driver {
         return id;
     }
 
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public Earphone getEarphone() {
         return earphone;
     }
 
     public void setEarphone(Earphone earphone) {
         this.earphone = earphone;
+    }
+
+    public Headphone getHeadphone() {
+        return headphone;
+    }
+
+    public void setHeadphone(Headphone headphone) {
+        this.headphone = headphone;
     }
 
     public DriverType getDriverType() {

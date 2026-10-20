@@ -1,4 +1,4 @@
-package com.pm.playerservice.dto;
+package com.pm.playerservice.dto.response;
 
 public class ChipResponseDTO {
         private String brand;

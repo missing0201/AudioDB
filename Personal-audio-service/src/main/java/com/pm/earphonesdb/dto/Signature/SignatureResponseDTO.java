@@ -1,4 +1,4 @@
-package com.pm.earphonesdb.dto;
+package com.pm.earphonesdb.dto.Signature;
 
 import sound_signature.SoundSignature;
 

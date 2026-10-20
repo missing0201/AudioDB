@@ -1,19 +1,18 @@
-package com.pm.playerservice.dto.dac;
+package com.pm.playerservice.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.pm.playerservice.model.PlayerType;
 
 @JsonPropertyOrder({
-        "id","brand","model","playerType","dacSpec"
+        "id","brand","model","playerType","dacSpec","ampSpec"
 })
-public class DacResponseDTO {
+public final class ComboResponseDTO implements PlayerResponse {
     private Long id;
     private String brand;
     private String model;
     private PlayerType playerType;
-    @JsonProperty("dacSpec")
     private DacSpecResponseDTO dacSpec;
+    private AmpSpecResponseDTO ampSpec;
 
     public Long getId() {
         return id;
@@ -53,5 +52,13 @@ public class DacResponseDTO {
 
     public void setDacSpec(DacSpecResponseDTO dacSpec) {
         this.dacSpec = dacSpec;
+    }
+
+    public AmpSpecResponseDTO getAmpSpec() {
+        return ampSpec;
+    }
+
+    public void setAmpSpec(AmpSpecResponseDTO ampSpec) {
+        this.ampSpec = ampSpec;
     }
 }

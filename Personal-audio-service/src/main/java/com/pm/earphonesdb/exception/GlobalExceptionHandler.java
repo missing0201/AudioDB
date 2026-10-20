@@ -63,6 +63,30 @@ public class GlobalExceptionHandler {
         log.warn("Headphone not found! {}", ex.getMessage());
         Map<String, String> errors = new HashMap<>();
         errors.put("message", "Headphone not found!");
-        return ResponseEntity.badRequest().body(errors);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errors);
+    }
+
+    @ExceptionHandler(DriverTypeDuplicateException.class)
+    public ResponseEntity<Map<String, String>> handleDriverTypeDuplicateException(DriverTypeDuplicateException ex) {
+        log.warn("Driver type duplicate! {}", ex.getMessage());
+        Map<String, String> errors = new HashMap<>();
+        errors.put("message", "Driver type duplicate!");
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(errors);
+    }
+
+    @ExceptionHandler(DriverTypeNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleDriverTypeNotFoundException(DriverTypeNotFoundException ex) {
+        log.warn("Driver type not found! {}", ex.getMessage());
+        Map<String, String> errors = new HashMap<>();
+        errors.put("message", "Driver type not found!");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errors);
+    }
+
+    @ExceptionHandler(DriverFieldNullException.class)
+    public ResponseEntity<Map<String, String>> handleDriverFieldNullException(DriverFieldNullException ex) {
+        log.warn("Driver field null! {}", ex.getMessage());
+        Map<String, String> errors = new HashMap<>();
+        errors.put("message", "Driver field null!");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
     }
 }

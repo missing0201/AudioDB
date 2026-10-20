@@ -20,7 +20,7 @@ public class HeadphoneRequestDTO {
     @NotNull
     private BigDecimal msrp;
 
-    private List<EarphoneDriverRequestDTO> drivers = new ArrayList<>();
+    private List<HeadphoneDriverRequestDTO> drivers = new ArrayList<>();
 
     public Long getBrandId() {
         return brandId;
@@ -46,11 +46,11 @@ public class HeadphoneRequestDTO {
         this.msrp = msrp;
     }
 
-    public List<EarphoneDriverRequestDTO> getDrivers() {
+    public List<HeadphoneDriverRequestDTO> getDrivers() {
         return drivers;
     }
 
-    public void setDrivers(List<EarphoneDriverRequestDTO> drivers) {
+    public void setDrivers(List<HeadphoneDriverRequestDTO> drivers) {
         this.drivers = drivers;
     }
 }

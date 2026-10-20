@@ -3,16 +3,20 @@ package com.pm.earphonesdb.service;
 import com.pm.earphonesdb.RepositoryFileValidator.BrandRepoValidator;
 import com.pm.earphonesdb.RepositoryFileValidator.DriverRepoValidator;
 import com.pm.earphonesdb.RepositoryFileValidator.earphones.EarphoneRepoValidator;
-import com.pm.earphonesdb.dto.*;
+import com.pm.earphonesdb.dto.Signature.SignatureRequestDTO;
+import com.pm.earphonesdb.dto.Signature.SignatureResponseDTO;
 import com.pm.earphonesdb.dto.earphones.EarphoneDriverRequestDTO;
 import com.pm.earphonesdb.dto.earphones.EarphoneRequestDTO;
 import com.pm.earphonesdb.dto.earphones.EarphoneResponseDTO;
+import com.pm.earphonesdb.exception.DriverFieldNullException;
+import com.pm.earphonesdb.exception.DriverTypeDuplicateException;
 import com.pm.earphonesdb.grpc.SoundSignatureGrpcClient;
 import com.pm.earphonesdb.mapper.earphones.EarphoneMapper;
 import com.pm.earphonesdb.mapper.SignatureMapper;
 import com.pm.earphonesdb.model.Brand;
 import com.pm.earphonesdb.model.Earphone;
 import com.pm.earphonesdb.model.Driver;
+import com.pm.earphonesdb.repository.DriverRepo;
 import com.pm.earphonesdb.repository.DriverTypeRepository;
 import com.pm.earphonesdb.repository.EarphoneRepository;
 import jakarta.transaction.Transactional;
@@ -30,6 +34,7 @@ public class EarphoneService {
     private BrandRepoValidator brandRepoValidator;
     private EarphoneRepoValidator earphoneRepoValidator;
     private DriverRepoValidator driverRepoValidator;
+    private DriverRepo driverRepo;
 
     public EarphoneService(
                 EarphoneRepository earphoneRepository,
@@ -37,13 +42,15 @@ public class EarphoneService {
                 SoundSignatureGrpcClient soundSignatureGrpcClient,
                 BrandRepoValidator brandRepoValidator,
                 EarphoneRepoValidator earphoneRepoValidator,
-                DriverRepoValidator driverRepoValidator) {
+                DriverRepoValidator driverRepoValidator,
+                DriverRepo driverRepo) {
         this.earphoneRepository = earphoneRepository;
         this.driverTypeRepository = driverTypeRepository;
         this.soundSignatureGrpcClient = soundSignatureGrpcClient;
         this.brandRepoValidator = brandRepoValidator;
         this.earphoneRepoValidator = earphoneRepoValidator;
         this.driverRepoValidator = driverRepoValidator;
+        this.driverRepo = driverRepo;
     }
 
     public SignatureResponseDTO getSignature(String id){
@@ -72,7 +79,7 @@ public class EarphoneService {
         Brand brand= brandRepoValidator.validateBrand(earphoneRequestDTO);
 
         //lookup in the repository to ensure that the new brand and model does not already exist.
-        earphoneRepoValidator.brandAndModelExist(brand, earphoneRequestDTO.getModel());
+        earphoneRepoValidator.brandAndModelNotExist(brand, earphoneRequestDTO.getModel());
 
         //save the earphone to the repository
         Earphone earphone = EarphoneMapper.toModel(earphoneRequestDTO);
@@ -106,7 +113,7 @@ public class EarphoneService {
         return EarphoneMapper.toDTO(updatedEarphone);
     }
 
-    public SignatureResponseDTO updateEarphoneSignature(String id,SignatureRequestDTO signatureRequestDTO) {
+    public SignatureResponseDTO updateEarphoneSignature(String id, SignatureRequestDTO signatureRequestDTO) {
 
         UpdateSignatureResponse response=soundSignatureGrpcClient.updateSignature(SignatureMapper.toSignature(id,signatureRequestDTO));
 
@@ -116,16 +123,36 @@ public class EarphoneService {
 
     //deleting existing earphone
     public void deleteEarphone(Long id) {
-        earphoneRepository.deleteById(id);
+        earphoneRepository.delete(earphoneRepoValidator.findEarphoneById(id));
     }
 
     public List<Driver> checkEarphoneDrivers(Earphone earphone, EarphoneRequestDTO earphoneRequestDTO) {
         List<Driver> driverTypes = new ArrayList<>();
 
+        if(earphoneRequestDTO.getDrivers()==null||
+                earphoneRequestDTO.getDrivers().isEmpty()){
+            throw new DriverFieldNullException("Driver field cannot be null");
+        }
+
+        Set<Long> incomingTypeIds = new HashSet<>();
+
         //validates every Earphone Driver DTO in the list
         for (EarphoneDriverRequestDTO driverDTO : earphoneRequestDTO.getDrivers()) {
 
             Driver driver = new Driver();
+            Long id=driverDTO.getDriverTypeId();
+
+            if (incomingTypeIds.contains(id)
+            ) {
+                throw new DriverTypeDuplicateException("Duplicate driver type in request: " + id);
+            }else{
+                incomingTypeIds.add(id);
+            }
+
+            if(driverRepo.existsByEarphoneIdAndDriverTypeId(earphone.getId(), id)){
+                throw new DriverTypeDuplicateException("Duplicate driver type in request: " + id);
+            }
+
 
             //add each validated driver to the list
             driver.setDriverType(driverRepoValidator.FindDriverTypeById(driverDTO.getDriverTypeId()));
@@ -145,12 +172,20 @@ public class EarphoneService {
 
         Set<Long> incomingTypeIds = new HashSet<>();
 
+        if(dto.getDrivers()==null||
+                dto.getDrivers().isEmpty()){
+            throw new DriverFieldNullException("Driver field cannot be null");
+        }
+
         for (EarphoneDriverRequestDTO driverDTO : dto.getDrivers()) {
             Long typeId = driverDTO.getDriverTypeId();
 
-            if (!incomingTypeIds.add(typeId)) {
-                // same driver type listed twice in the request -> would violate the unique constraint
-                throw new IllegalArgumentException("Duplicate driver type in request: " + typeId);
+
+            if (incomingTypeIds.contains(typeId)
+            ) {
+                throw new DriverTypeDuplicateException("Duplicate driver type in request: " + typeId);
+            }else{
+                incomingTypeIds.add(typeId);
             }
 
             Driver driver = existing.get(typeId);

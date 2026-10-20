@@ -1,7 +1,7 @@
 package com.pm.earphonesdb.mapper;
 
-import com.pm.earphonesdb.dto.SignatureRequestDTO;
-import com.pm.earphonesdb.dto.SignatureResponseDTO;
+import com.pm.earphonesdb.dto.Signature.SignatureRequestDTO;
+import com.pm.earphonesdb.dto.Signature.SignatureResponseDTO;
 import sound_signature.Signature;
 import sound_signature.SoundSignature;
 

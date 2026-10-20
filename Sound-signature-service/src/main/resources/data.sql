@@ -9,4 +9,6 @@ VALUES
 
     (4, 'BRIGHT', 6.5, 7.0, 9.0, 'Very clear and energetic sound'),
 
-    (5, 'ANALYTICAL', 7.5, 8.5, 9.5, 'Highly detailed and technical sound');
+    (5, 'ANALYTICAL', 7.5, 8.5, 9.5, 'Highly detailed and technical sound')
+
+ON CONFLICT (earphone_id) DO NOTHING;

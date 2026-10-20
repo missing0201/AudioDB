@@ -2,9 +2,8 @@ package com.pm.earphonesdb.controller;
 
 import com.pm.earphonesdb.dto.earphones.EarphoneRequestDTO;
 import com.pm.earphonesdb.dto.earphones.EarphoneResponseDTO;
-import com.pm.earphonesdb.dto.SignatureRequestDTO;
-import com.pm.earphonesdb.dto.SignatureResponseDTO;
-import com.pm.earphonesdb.grpc.SoundSignatureGrpcClient;
+import com.pm.earphonesdb.dto.Signature.SignatureRequestDTO;
+import com.pm.earphonesdb.dto.Signature.SignatureResponseDTO;
 import com.pm.earphonesdb.service.EarphoneService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

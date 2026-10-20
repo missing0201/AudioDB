@@ -43,10 +43,17 @@ public class HeadphoneController {
     }
 
     @PostMapping
-    @Operation(summary = "Put new earphones")
+    @Operation(summary = "Put new headphones")
     public ResponseEntity<HeadphoneResponseDTO> createHeadphone(@Valid @RequestBody HeadphoneRequestDTO headphoneRequestDTO){
         HeadphoneResponseDTO headphoneResponseDTO = headphoneService.createHeadphone(headphoneRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(headphoneResponseDTO);
+    }
+
+    @PutMapping("/{id}")
+    @Operation(summary = "udpate headphone by id and new info")
+    public ResponseEntity<HeadphoneResponseDTO> updateHeadphone(@PathVariable Long id,@Valid @RequestBody HeadphoneRequestDTO headphoneRequestDTO){
+        HeadphoneResponseDTO headphoneResponseDTO = headphoneService.updateHeadphone(id,headphoneRequestDTO);
+        return ResponseEntity.ok().body(headphoneResponseDTO);
     }
 
     @DeleteMapping("/{id}")

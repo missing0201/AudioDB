@@ -22,19 +22,21 @@ INSERT INTO earphone (brand_id, model, msrp) VALUES
 ON CONFLICT (brand_id, model) DO NOTHING;
 
 -- EARPHONE DRIVERS
-INSERT INTO driver (earphone_id, driver_type_id, quantity) VALUES
-                                                                        (1, 1, 2),
-                                                                        (1, 2, 4),
-
-                                                                        (2, 3, 1),
-
-                                                                        (3, 1, 1),
-
-                                                                        (4, 1, 2),
-                                                                        (4, 2, 1),
-
-                                                                        (5, 1, 2),
-                                                                        (5, 2, 2)
+INSERT INTO driver (earphone_id, driver_type_id, quantity)
+SELECT e.id, dt.id, v.quantity
+FROM (VALUES
+          ('Moondrop','Blessing 3','Dynamic Driver',2),
+          ('Moondrop','Blessing 3','Balanced Armature',4),
+          ('7Hz','Timeless','Planar Magnetic',1),
+          ('Sennheiser','IE 600','Dynamic Driver',1),
+          ('Sony','IER-Z1R','Dynamic Driver',2),
+          ('Sony','IER-Z1R','Balanced Armature',1),
+          ('Kiwi Ears','Quartet','Dynamic Driver',2),
+          ('Kiwi Ears','Quartet','Balanced Armature',2)
+     ) AS v(brand, model, driver_type, quantity)
+         JOIN brand b        ON b.name = v.brand
+         JOIN earphone e     ON e.brand_id = b.id AND e.model = v.model
+         JOIN driver_type dt ON dt.name = v.driver_type
 ON CONFLICT (earphone_id, driver_type_id) DO NOTHING;
 
 INSERT INTO headphone (brand_id, model, msrp) VALUES
@@ -45,12 +47,15 @@ INSERT INTO headphone (brand_id, model, msrp) VALUES
 
 ON CONFLICT (brand_id, model) DO NOTHING;
 
-INSERT INTO driver (headphone_id, driver_type_id, quantity) VALUES
-                                                               (1, 3, 1),
-
-                                                               (2, 1, 1),
-
-                                                               (3, 1, 1),
-
-                                                               (4, 1, 1)
+INSERT INTO driver (headphone_id, driver_type_id, quantity)
+SELECT h.id, dt.id, v.quantity
+FROM (VALUES
+        ('Moondrop','Venus','Planar Magnetic',1),
+        ('Sennheiser','Hd800s','Dynamic Driver',1),
+        ('Sony','MDR-Z1R','Dynamic Driver',1),
+        ('Kiwi Ears','Quartet','Dynamic Driver',1)
+    ) AS v(brand, model, driver_type, quantity)
+        JOIN brand b        ON b.name = v.brand
+        JOIN headphone h    ON h.brand_id = b.id AND h.model = v.model
+        JOIN driver_type dt ON dt.name = v.driver_type
 ON CONFLICT (headphone_id, driver_type_id) DO NOTHING;

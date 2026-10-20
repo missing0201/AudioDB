@@ -1,6 +1,7 @@
 package com.pm.playerservice.mapper;
 
-import com.pm.playerservice.dto.ComboResponseDTO;
+import com.pm.playerservice.dto.request.ComboRequestDTO;
+import com.pm.playerservice.dto.response.ComboResponseDTO;
 import com.pm.playerservice.model.Player;
 
 public class ComboMapper {
@@ -17,4 +18,14 @@ public class ComboMapper {
 
         return comboResponseDTO;
     }
+
+//    public static Player toEntity(ComboRequestDTO comboRequestDTO) {
+//        Player player = new Player();
+//        player.setId(comboRequestDTO.getId());
+//        player.setModel(comboRequestDTO.getModel());
+//        player.setPlayerType(comboRequestDTO.getPlayerType());
+//        player.setDacSpec(comboRequestDTO.getDacSpec());
+//        player.setAmpSpec(comboRequestDTO.getAmpSpec());
+//        return player;
+//    }
 }
