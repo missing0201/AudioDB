@@ -13,7 +13,6 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="AudioDB" target="1.5" />
       <module name="Auth-service" target="21" />
       <module name="EarphonesDB" target="21" />
       <module name="Personal-audio-service" target="21" />

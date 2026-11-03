@@ -2,9 +2,9 @@ package com.pm.soundsignatureservice.grpc;
 
 import com.pm.soundsignatureservice.service.SignatureService;
 import io.grpc.stub.StreamObserver;
-import net.devh.boot.grpc.server.service.GrpcService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.grpc.server.service.GrpcService;
 import sound_signature.*;
 
 @GrpcService
