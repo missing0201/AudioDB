@@ -2,6 +2,7 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
@@ -12,8 +13,11 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="AudioDB" target="1.5" />
+      <module name="Auth-service" target="21" />
       <module name="EarphonesDB" target="21" />
       <module name="Personal-audio-service" target="21" />
+      <module name="Used-market-service" target="21" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -23,6 +27,7 @@
       <module name="Personal-audio-service" options="-parameters" />
       <module name="Player-service" options="-parameters" />
       <module name="Sound-signature-service" options="-parameters" />
+      <module name="Used-market-service" options="-parameters" />
     </option>
   </component>
 </project>

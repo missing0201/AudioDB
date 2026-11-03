@@ -6,7 +6,7 @@ import sound_signature.SoundSignature;
 
 public class SignatureMapper {
 
-    // proto message -> DB entity (your version, unchanged)
+    // proto message -> DB entity
     public static SignatureEntity toEntity(Long id, Signature signature) {
         SignatureEntity s = new SignatureEntity();
         s.setEarphoneId(id);
@@ -18,7 +18,7 @@ public class SignatureMapper {
         return s;
     }
 
-    // DB entity -> proto message (the missing piece)
+    // DB entity -> proto message
     public static Signature toProto(SignatureEntity e) {
         return Signature.newBuilder()
                 .setId(String.valueOf(e.getEarphoneId()))
@@ -30,7 +30,7 @@ public class SignatureMapper {
                 .build();
     }
 
-    // stored string -> proto enum (your old toProto, renamed)
+    // stored string -> proto enum
     public static SoundSignature toEnum(String value) {
         try {
             SoundSignature result = SoundSignature.valueOf(value);
