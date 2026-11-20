@@ -9,6 +9,9 @@
         <option value="$PROJECT_DIR$/Sound-signature-service/pom.xml" />
         <option value="$PROJECT_DIR$/Player-service/pom.xml" />
         <option value="$PROJECT_DIR$/Used-market-service/pom.xml" />
+        <option value="$PROJECT_DIR$/Auth-service/pom.xml" />
+        <option value="$PROJECT_DIR$/AudioDB-security/pom.xml" />
+        <option value="$PROJECT_DIR$/Api-gateway/pom.xml" />
       </list>
     </option>
   </component>

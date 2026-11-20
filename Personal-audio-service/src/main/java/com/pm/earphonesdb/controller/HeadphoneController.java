@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,6 +30,7 @@ public class HeadphoneController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAuthority('read:headphones')")
     @Operation(summary = "Get all headphones")
     public ResponseEntity<List<HeadphoneResponseDTO>> getHeadphones() {
         List<HeadphoneResponseDTO> headphones = headphoneService.getHeadphones();
@@ -36,6 +38,7 @@ public class HeadphoneController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('read:headphones')")
     @Operation(summary = "Get headphone by ID")
     public ResponseEntity<HeadphoneResponseDTO> getHeadphone(@PathVariable Long id) {
         HeadphoneResponseDTO headphoneResponseDTO = headphoneService.getHeadphone(id);
@@ -43,6 +46,7 @@ public class HeadphoneController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('create:headphones')")
     @Operation(summary = "Put new headphones")
     public ResponseEntity<HeadphoneResponseDTO> createHeadphone(@Valid @RequestBody HeadphoneRequestDTO headphoneRequestDTO){
         HeadphoneResponseDTO headphoneResponseDTO = headphoneService.createHeadphone(headphoneRequestDTO);
@@ -50,13 +54,15 @@ public class HeadphoneController {
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "udpate headphone by id and new info")
+    @PreAuthorize("hasAuthority('update:headphones')")
+    @Operation(summary = "update headphone by id and new info")
     public ResponseEntity<HeadphoneResponseDTO> updateHeadphone(@PathVariable Long id,@Valid @RequestBody HeadphoneRequestDTO headphoneRequestDTO){
         HeadphoneResponseDTO headphoneResponseDTO = headphoneService.updateHeadphone(id,headphoneRequestDTO);
         return ResponseEntity.ok().body(headphoneResponseDTO);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('delete:headphones')")
     @Operation(summary = "Delete headphone by ID")
     public ResponseEntity<HeadphoneResponseDTO> deleteHeadphone(@PathVariable Long id) {
         headphoneService.deleteHeadphone(id);

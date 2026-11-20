@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,6 +26,7 @@ public class EarphoneController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAuthority('read:earphones')")
     @Operation(summary = "Get all earphones")
     public ResponseEntity<List<EarphoneResponseDTO>> getEarphones() {
         List<EarphoneResponseDTO> earphones = earphoneService.getEarphones();
@@ -32,6 +34,7 @@ public class EarphoneController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('read:earphones')")
     @Operation(summary = "Get earphone by id")
     public ResponseEntity<EarphoneResponseDTO> getEarphone(@PathVariable Long id) {
         EarphoneResponseDTO earphoneResponseDTO = earphoneService.getEarphone(id);
@@ -39,6 +42,7 @@ public class EarphoneController {
     }
 
     @GetMapping("/{id}/signature")
+    @PreAuthorize("hasAuthority('read:signatures')")
     @Operation(summary = "Get an earphone's signature")
     public ResponseEntity<SignatureResponseDTO> getEarphoneSignature(
             @PathVariable String id) {
@@ -47,6 +51,7 @@ public class EarphoneController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('create:earphones')")
     @Operation(summary = "Create a new earphone")
     public ResponseEntity<EarphoneResponseDTO> createEarphone(@Valid @RequestBody EarphoneRequestDTO earphoneRequestDTO) {
         EarphoneResponseDTO earphoneResponseDTO = earphoneService.createEarphone(earphoneRequestDTO);
@@ -54,6 +59,7 @@ public class EarphoneController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('update:earphones')")
     @Operation(summary = "Update an earphone by ID")
     public ResponseEntity<EarphoneResponseDTO> updateEarphone(@PathVariable Long id,
                                                               @Valid @RequestBody EarphoneRequestDTO earphoneRequestDTO) {
@@ -63,6 +69,7 @@ public class EarphoneController {
     }
 
     @PutMapping("/{id}/signature")
+    @PreAuthorize("hasAuthority('update:signatures')")
     @Operation(summary = "Update an earphone's signature")
     public ResponseEntity<SignatureResponseDTO> updateEarphoneSignature(@PathVariable String id,
             @Valid @RequestBody SignatureRequestDTO signatureRequestDTO) {
@@ -71,6 +78,7 @@ public class EarphoneController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('delete:earphones')")
     @Operation(summary = "Delete an earphone by ID")
     public ResponseEntity<Void> deleteEarphone(@PathVariable Long id) {
         earphoneService.deleteEarphone(id);

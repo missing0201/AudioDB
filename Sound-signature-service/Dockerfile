@@ -1,20 +1,25 @@
+# Build stage
 FROM maven:3.9.9-eclipse-temurin-21 AS builder
 
 WORKDIR /app
 
-COPY pom.xml .
-RUN mvn dependency:go-offline -B
+# Copy the entire AudioDB project
+COPY . .
 
-COPY src ./src
-RUN mvn clean package -DskipTests
+# Build Sound Signature and its required Maven modules
+RUN mvn -B -f pom.xml \
+    -pl Sound-signature-service \
+    -am clean package -DskipTests
 
-FROM eclipse-temurin:21-jdk AS runner
+# Runtime stage
+FROM eclipse-temurin:21-jre
 
 WORKDIR /app
 
-COPY --from=builder /app/target/*.jar app.jar
+# Copy the generated executable JAR
+COPY --from=builder /app/Sound-signature-service/target/*.jar app.jar
 
 EXPOSE 4001
-expose 9001
+EXPOSE 9001
 
 ENTRYPOINT ["java", "-jar", "app.jar"]

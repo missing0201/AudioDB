@@ -9,19 +9,30 @@
         <outputRelativeToContentRoot value="true" />
         <module name="Player-service" />
         <module name="Sound-signature-service" />
+        <module name="AudioDB-security" />
+        <module name="Api-gateway" />
         <module name="Personal-Audio-service" />
+      </profile>
+      <profile name="Annotation profile for AudioDB" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.48/lombok-1.18.48.jar" />
+        </processorPath>
+        <module name="Used-market-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="Auth-service" target="21" />
-      <module name="EarphonesDB" target="21" />
       <module name="Personal-audio-service" target="21" />
-      <module name="Used-market-service" target="21" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="EarphonesDB" options="-parameters" />
+      <module name="Api-gateway" options="-parameters" />
+      <module name="AudioDB-security" options="-parameters" />
+      <module name="Auth-service" options="-parameters" />
       <module name="Personal-Audio-service" options="-parameters" />
       <module name="Personal-audio-service" options="-parameters" />
       <module name="Player-service" options="-parameters" />
